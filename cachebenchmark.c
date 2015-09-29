@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stdio.h>
 #include<time.h>
 #include<strings.h>
@@ -8,7 +9,7 @@
 #define NbrPlanes 64
 #define NbrRows 1024
 #define NbrCols 1024
-#define NbrIterations 100
+#define NbrIterations 1
 
 int32_t Data[NbrPlanes][NbrRows][NbrCols];
 
@@ -28,15 +29,18 @@ int main(int argc, const char * argv[]) {
   
   printf(">>Size of int: %ld; Size of long int: %ld; Size of time_t: %ld\n", sizeof( int ), sizeof( long int), sizeof( time_t));
 
+  FILE *trace_file = fopen("memtrace.bin", "wb");
+  int32_t *base_addr = &Data[0][0][0];
   for(I = 0; I < NbrPlanes; I++){
     for(J = 0; J < NbrRows; J++){
       for(K = 0; K < NbrCols; K++) {
-	//X = Data[I][J][K];		
-	Data[I][J][K] = 0;
+	X = &Data[I][J][K] - base_addr;		
+	//Data[I][J][K] = 0;
+        fwrite(&X, sizeof(int32_t), 1, trace_file);
       }
     }
   }
-
+  fclose(trace_file);
   sleep( 1 );
   time (&StartTime);
   for( L=0; L < NbrIterations; L++){
