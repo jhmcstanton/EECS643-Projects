@@ -41,6 +41,7 @@ int main(int argc, const char * argv[]) {
     }
   }
   fclose(trace_file);
+
   sleep( 1 );
   time (&StartTime);
   for( L=0; L < NbrIterations; L++){
