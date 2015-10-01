@@ -14,7 +14,8 @@
 int32_t Data[NbrPlanes][NbrRows][NbrCols];
 
 int main(int argc, const char * argv[]) {
-  
+
+  srand(time(NULL));  
   int32_t I, J, K = 0;
   int32_t L = NbrIterations;
   int32_t X = 0;
@@ -30,17 +31,21 @@ int main(int argc, const char * argv[]) {
   printf(">>Size of int: %ld; Size of long int: %ld; Size of time_t: %ld\n", sizeof( int ), sizeof( long int), sizeof( time_t));
 
   FILE *trace_file = fopen("memtrace.bin", "wb");
+  FILE *rand_file  = fopen("rand_memtrace.bin", "wb");
   int32_t *base_addr = &Data[0][0][0];
   for(I = 0; I < NbrPlanes; I++){
     for(J = 0; J < NbrRows; J++){
       for(K = 0; K < NbrCols; K++) {
-	X = &Data[I][J][K] - base_addr;		
+	X = &Data[I][J][K] - base_addr;	 
 	//Data[I][J][K] = 0;
         fwrite(&X, sizeof(int32_t), 1, trace_file);
+        X = &Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols] - base_addr;
+        fwrite(&X, sizeof(int32_t), 1, rand_file);
       }
     }
   }
   fclose(trace_file);
+  fclose(rand_file);
 
   sleep( 1 );
   time (&StartTime);
