@@ -34,17 +34,17 @@ int main(int argc, const char * argv[]) {
   
   printf(">>Size of int: %ld; Size of long int: %ld; Size of time_t: %ld\n", sizeof( int ), sizeof( long int), sizeof( time_t));
 
-  FILE *trace_file = fopen("memtrace.bin", "wb");
+  FILE *trace_file = fopen("memcols.bin", "wb");
   FILE *rand_file  = fopen("rand_memtrace.bin", "wb");
   int32_t *base_addr = &Data[0][0][0];
-  uint64_t prev_addr = rand() % (SizeOfArray / 4) * 4;
+  uint32_t prev_addr = rand() % (SizeOfArray / 4) * 4;
   for(I = 0; I < NbrPlanes; I++){
     for(J = 0; J < NbrRows; J++){
       for(K = 0; K < NbrCols; K++) {       
-	X = ((uint64_t)&Data[I][J][K]) - ((uint64_t)base_addr);	 
+	X = ((uint32_t)&Data[I][J][K]) - ((uint32_t)base_addr);	 
 	//Data[I][J][K] = 0;
         fwrite(&X, sizeof(int32_t), 1, trace_file);
-        //X = ((uint64_t)&Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols]) - ((uint64_t)base_addr);
+        //X = ((uint32_t)&Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols]) - ((uint32_t)base_addr);
         if(rand() % 2 == 0){
 	  X = prev_addr + (rand() % walk_size + 1) * 4; 
 	}
@@ -54,33 +54,16 @@ int main(int argc, const char * argv[]) {
         if (X < 0 || X > SizeOfArray){
 	  X = rand() % (SizeOfArray / 4) * 4;
 	}
-	//X = ((uint64_t)&Data[rand()][rand()][rand()];
         fwrite(&X, sizeof(int32_t), 1, rand_file);        
-        prev_addr = (uint64_t)X;
+        prev_addr = (uint32_t)X;
       }
     }
   }
   fclose(trace_file);
-  fclose(rand_file);
-  /*
-  sleep( 1 );
-  time (&StartTime);
-  for( L=0; L < NbrIterations; L++){
-    time( &InnerStartTime);
-    for( I = 0; I < NbrPlanes; I++){
-      for( J = 0; J < NbrRows; J++){
-	for( K = 0; K < NbrCols; K++){
-	  X = Data[I][J][K];
-	}
-      }
-    }
-    time( &InnerEndTime );
-    inner_time_sum += InnerEndTime - InnerStartTime;
-  }
+  fclose(rand_file);  
 
   time( &EndTime );
   
-  printf( ">>>>X: %d\n", X);
   printf(">>CacheBenchmark: Start %12ld; End: %12ld; Delta: %12ld; InnerLoopAvg: %12ld\n", 
 	 StartTime, EndTime, (EndTime - StartTime), inner_time_sum / NbrIterations);
 
@@ -89,23 +72,24 @@ int main(int argc, const char * argv[]) {
   sleep( 1 );
 
   time( &StartTime );
+  trace_file = fopen("memplanes.bin", "wb");
   for(L = 0; L < NbrIterations; L++){
     time( &InnerStartTime);
     for( K = 0; K < NbrCols; K++){
       for( J = 0; J < NbrRows; J++) {
 	for ( I = 0;  I < NbrPlanes; I++) {
-	  X = Data[I][J][K];
+	X = ((uint32_t)&Data[I][J][K]) - ((uint32_t)base_addr);	 
+        fwrite(&X, sizeof(int32_t), 1, trace_file);
 	}
       }
     }
-    time( &InnerEndTime );
-    inner_time_sum += InnerEndTime - InnerStartTime;
   }
+  fclose(trace_file);
 
   time ( &EndTime);
 
-  printf(">>>>X: %d\n", X);
+  printf(">>>>X: %d\n", *X);
   printf(">>CacheBenchmark: Start: %12ld; End: %12ld; Delta: %12ld; InnerLoopAvg: %12ld\n", 
-	 StartTime, EndTime, (EndTime - StartTime), inner_time_sum / NbrIterations); */
+	 StartTime, EndTime, (EndTime - StartTime), inner_time_sum / NbrIterations); 
   return 1;
 }
