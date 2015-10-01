@@ -11,6 +11,7 @@
 #define NbrRows 1024
 #define NbrCols 1024
 #define NbrIterations 1
+#define SizeOfArray (NbrPlanes * NbrRows * NbrCols)
 
 int32_t Data[NbrPlanes][NbrRows][NbrCols];
 
@@ -20,6 +21,8 @@ int main(int argc, const char * argv[]) {
   int32_t I, J, K = 0;
   int32_t L = NbrIterations;
   int32_t *X = 0;
+  int32_t walk_size = 3;
+
   long inner_time_sum = 0;
 
   time_t StartTime, EndTime, InnerStartTime, InnerEndTime;
@@ -34,14 +37,26 @@ int main(int argc, const char * argv[]) {
   FILE *trace_file = fopen("memtrace.bin", "wb");
   FILE *rand_file  = fopen("rand_memtrace.bin", "wb");
   int32_t *base_addr = &Data[0][0][0];
+  uint64_t prev_addr = rand() % (SizeOfArray / 4) * 4;
   for(I = 0; I < NbrPlanes; I++){
     for(J = 0; J < NbrRows; J++){
       for(K = 0; K < NbrCols; K++) {       
 	X = ((uint64_t)&Data[I][J][K]) - ((uint64_t)base_addr);	 
 	//Data[I][J][K] = 0;
         fwrite(&X, sizeof(int32_t), 1, trace_file);
-        X = ((uint64_t)&Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols]) - ((uint64_t)base_addr);
-        fwrite(&X, sizeof(int32_t), 1, rand_file);
+        //X = ((uint64_t)&Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols]) - ((uint64_t)base_addr);
+        if(rand() % 2 == 0){
+	  X = prev_addr + (rand() % walk_size + 1) * 4; 
+	}
+	else {
+	  X = prev_addr - (rand() % walk_size + 1) * 4; 
+	}
+        if (X < 0 || X > SizeOfArray){
+	  X = rand() % (SizeOfArray / 4) * 4;
+	}
+	//X = ((uint64_t)&Data[rand()][rand()][rand()];
+        fwrite(&X, sizeof(int32_t), 1, rand_file);        
+        prev_addr = (uint64_t)X;
       }
     }
   }
