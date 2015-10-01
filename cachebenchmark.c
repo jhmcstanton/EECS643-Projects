@@ -37,20 +37,21 @@ int main(int argc, const char * argv[]) {
   FILE *trace_file = fopen("memcols.bin", "wb");
   FILE *rand_file  = fopen("rand_memtrace.bin", "wb");
   int32_t *base_addr = &Data[0][0][0];
-  uint32_t prev_addr = rand() % (SizeOfArray / 4) * 4;
+  // Used for the random walk trace. This is used to find an address inside the array that is a multiple of 4
+  uint32_t prev_addr = rand() % (SizeOfArray / 4) * 4; 
   for(I = 0; I < NbrPlanes; I++){
     for(J = 0; J < NbrRows; J++){
       for(K = 0; K < NbrCols; K++) {       
 	X = ((uint32_t)&Data[I][J][K]) - ((uint32_t)base_addr);	 
-	//Data[I][J][K] = 0;
         fwrite(&X, sizeof(int32_t), 1, trace_file);
-        //X = ((uint32_t)&Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols]) - ((uint32_t)base_addr);
-        if(rand() % 2 == 0){
-	  X = prev_addr + (rand() % walk_size + 1) * 4; 
+        // Making the random walk trace
+        if(rand() % 2 == 0){  // Moving forward in the array
+	  X = prev_addr + (rand() % walk_size ) * 4; 
 	}
-	else {
-	  X = prev_addr - (rand() % walk_size + 1) * 4; 
+	else { // Moving backward
+	  X = prev_addr - (rand() % walk_size ) * 4; 
 	}
+	// If the address picked is out of the bounds of the array then just pick a new, random one inside the array
         if (X < 0 || X > SizeOfArray){
 	  X = rand() % (SizeOfArray / 4) * 4;
 	}
