@@ -1,9 +1,10 @@
-#include<iostream>
+//#include<iostream>
 #include<stdio.h>
 #include<time.h>
 #include<strings.h>
 #include<stdlib.h>
 #include<unistd.h>
+#include<stdint.h>
 
 
 #define NbrPlanes 64
@@ -18,7 +19,7 @@ int main(int argc, const char * argv[]) {
   srand(time(NULL));  
   int32_t I, J, K = 0;
   int32_t L = NbrIterations;
-  int32_t X = 0;
+  int32_t *X = 0;
   long inner_time_sum = 0;
 
   time_t StartTime, EndTime, InnerStartTime, InnerEndTime;
@@ -35,18 +36,18 @@ int main(int argc, const char * argv[]) {
   int32_t *base_addr = &Data[0][0][0];
   for(I = 0; I < NbrPlanes; I++){
     for(J = 0; J < NbrRows; J++){
-      for(K = 0; K < NbrCols; K++) {
-	X = &Data[I][J][K] - base_addr;	 
+      for(K = 0; K < NbrCols; K++) {       
+	X = ((uint64_t)&Data[I][J][K]) - ((uint64_t)base_addr);	 
 	//Data[I][J][K] = 0;
         fwrite(&X, sizeof(int32_t), 1, trace_file);
-        X = &Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols] - base_addr;
+        X = ((uint64_t)&Data[rand() % NbrPlanes][rand() % NbrRows][rand() % NbrCols]) - ((uint64_t)base_addr);
         fwrite(&X, sizeof(int32_t), 1, rand_file);
       }
     }
   }
   fclose(trace_file);
   fclose(rand_file);
-
+  /*
   sleep( 1 );
   time (&StartTime);
   for( L=0; L < NbrIterations; L++){
@@ -90,6 +91,6 @@ int main(int argc, const char * argv[]) {
 
   printf(">>>>X: %d\n", X);
   printf(">>CacheBenchmark: Start: %12ld; End: %12ld; Delta: %12ld; InnerLoopAvg: %12ld\n", 
-	 StartTime, EndTime, (EndTime - StartTime), inner_time_sum / NbrIterations);
+	 StartTime, EndTime, (EndTime - StartTime), inner_time_sum / NbrIterations); */
   return 1;
 }
