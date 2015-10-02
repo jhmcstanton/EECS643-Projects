@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
   FILE *bin_file = fopen(argv[1], "rb");
   while(fread(&address, sizeof(int32_t), 1, bin_file)){
     line = (address >> 6) & 0x1ff; // 9 bits of 1s 
-    tag = (address >> 15) & 0xffff; // 9 for line + 6 for block
+    tag = (address >> 15) & 0x1ffff; // 9 for line + 6 for block
     // 2 way access
     if(cache2way.access(line, tag)){
     } else {

@@ -21,7 +21,7 @@ int main(int argc, const char * argv[]) {
   int32_t I, J, K = 0;
   int32_t L = NbrIterations;
   int32_t *X = 0;
-  int32_t walk_size = 3;
+  int32_t walk_size = 200;
 
   long inner_time_sum = 0;
 
@@ -46,10 +46,10 @@ int main(int argc, const char * argv[]) {
         fwrite(&X, sizeof(int32_t), 1, trace_file);
         // Making the random walk trace
         if(rand() % 2 == 0){  // Moving forward in the array
-	  X = prev_addr + (rand() % walk_size ) * 4; 
+	  X = prev_addr + (rand() % walk_size - 50) * 4; 
 	}
 	else { // Moving backward
-	  X = prev_addr - (rand() % walk_size ) * 4; 
+	  X = prev_addr - (rand() % walk_size - 50) * 4; 
 	}
 	// If the address picked is out of the bounds of the array then just pick a new, random one inside the array
         if (X < 0 || X > SizeOfArray){
