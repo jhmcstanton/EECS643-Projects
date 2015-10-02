@@ -1,9 +1,14 @@
 #include "cache.h"
 
 #define NumLines (1<<9) // this could be a field in Cache
+#define L1CCs 4 // super arbitrary
+#define MMCCs 100
 
 Cache::Cache(uint8_t assoc) {
   this->associativity = assoc;
+  this->totalCCs      = 0;
+  this->num_hits      = 0;
+  this->num_accesses  = 0;
   // Allocate the rows
   this->cache = new Set[NumLines] ; 
 
@@ -24,6 +29,7 @@ Cache::Cache(uint8_t assoc) {
 
 // Returns true if there is a successful hit
 bool Cache::access(Line line, Tag tag) {
+  this->num_accesses++;
   Set set = this->cache[line]; 
   AddrInfo *blocks = set.blocks;
   for(int i = 0; i < set.num_used_elements; i++){
@@ -32,9 +38,12 @@ bool Cache::access(Line line, Tag tag) {
     //	   blocks[i].valid, blocks[i].tag);
     if(blocks[i].valid && (blocks[i].tag == tag)){
       //      printf("HIT INSIDE ACCESS!\n");
+      this->num_hits++;
+      this->totalCCs += L1CCs;
       return true;      
     }
   }
+  this->totalCCs += MMCCs;
   return false;
 }
 

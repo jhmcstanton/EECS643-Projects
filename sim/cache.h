@@ -26,10 +26,12 @@ class Cache {
  private:
   Set *cache;
   uint8_t associativity;
-  
  public:
   Cache(uint8_t); // set the associativity
   ~Cache();
   bool access(Line, Tag);
   void push(Line, Tag);
+  uint64_t num_hits;
+  uint64_t num_accesses;
+  uint64_t totalCCs;
 };
