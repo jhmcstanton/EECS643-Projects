@@ -1,0 +1,2 @@
+2way=>Number of Hits: 3F00000, Total Accesses: 4000000, Hit Rate: 0.984375, total CC 16000000
+4way=>Number of Hits: 3F00000, Total Accesses: 4000000, Hit Rate: 0.984375, total CC 16000000
