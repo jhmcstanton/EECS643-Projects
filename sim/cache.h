@@ -29,6 +29,7 @@ class Cache {
  public:
   Cache(uint8_t); // set the associativity
   ~Cache();
+  void print_results();
   bool access(Line, Tag);
   void push(Line, Tag);
   uint64_t num_hits;

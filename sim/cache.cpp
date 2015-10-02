@@ -50,27 +50,36 @@ bool Cache::access(Line line, Tag tag) {
 // this is called when there is a miss, so hopefully searching
 // is mostly unnecessary
 void Cache::push(Line line, Tag tag) {
-  Set& set = this->cache[line];
-  AddrInfo *blocks = set.blocks;
-  
-  if(set.num_used_elements < this->associativity){
-    // Still initializing cache from cold boot!
-    AddrInfo block;  
-    block.tag = tag;
-    block.valid = true;
-    blocks[set.num_used_elements] = block;
-    set.num_used_elements++;   
-  } else {
-    // TRASHING DATA HERE
-    AddrInfo& block = blocks[set.oldest_tag_index];
-    block.tag = tag;
-    if(set.oldest_tag_index == this->associativity - 1){
-      set.oldest_tag_index = 0;
+  Set *set;
+  AddrInfo *blocks; // = set.blocks;
+  int wrap_around_counter = 0;
+  for(int i = 0; i < 4; i++ ) {
+    if ((line + i) < NumLines){
+      set = &cache[line + i];
     } else {
-      set.oldest_tag_index++;
+      set = &cache[wrap_around_counter];
+      wrap_around_counter++;
     }
-  } 
-     
+    
+    blocks = set->blocks;
+    if(set->num_used_elements < this->associativity){
+      // Still initializing cache from cold boot!
+      AddrInfo block;  
+      block.tag = tag;
+      block.valid = true;
+      blocks[set->num_used_elements] = block;
+      set->num_used_elements++;   
+    } else {
+      // TRASHING DATA HERE
+      AddrInfo& block = blocks[set->oldest_tag_index];
+      block.tag = tag;
+      if(set->oldest_tag_index == this->associativity - 1){
+	set->oldest_tag_index = 0;
+      } else {
+	set->oldest_tag_index++;
+      }
+    } 
+  }
 }
 
 Cache::~Cache() {
@@ -78,4 +87,12 @@ Cache::~Cache() {
     delete cache[i].blocks;
   }
   delete cache;
+}
+
+void Cache::print_results(){
+  printf("%uway=>Number of Hits: %X, Total Accesses: %X, Hit Rate: %F, total CC %X\n",	 
+	 associativity, num_hits, num_accesses, 
+	 ((double)num_hits) / ((double)num_accesses),
+	 totalCCs);
+  return;
 }

@@ -36,24 +36,17 @@ int main(int argc, char* argv[]) {
     if(cache2way.access(line, tag)){
     } else {
       cache2way.push(line, tag);
-      printf("2-Way WHIFF\n");
+      //printf("2-Way WHIFF\n");
     }
     // 4 way access
     if(cache4way.access(line, tag)){
     } else {
       cache4way.push(line, tag);
-      printf("4-Way WHIFF\n");
+      //printf("4-Way WHIFF\n");
     }
   }
-  printf("2way=>Number of Hits: %X, Total Accesses: %X, Hit Rate: %F, total CC %X\n",
-	 cache2way.num_hits, cache2way.num_accesses, 
-	 ((double)cache2way.num_hits) / ((double)cache2way.num_accesses),
-	 cache2way.totalCCs);
-
-    printf("4way=>Number of Hits: %X, Total Accesses: %X, Hit Rate: %F, total CC %X\n",
-	 cache4way.num_hits, cache4way.num_accesses, 
-	 ((double)cache4way.num_hits) / ((double)cache4way.num_accesses),
-	 cache4way.totalCCs);
   fclose(bin_file);
+  cache2way.print_results();
+  cache4way.print_results();
   return 0;
 }
