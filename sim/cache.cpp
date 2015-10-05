@@ -1,3 +1,11 @@
+/*
+ EECS 643
+ Jim Stanton, Pete Koehn, Brandon Teh
+ 
+ This class keeps track of set-associative caches.
+ */
+
+
 #include "cache.h"
 
 #define NumLines (1<<9) // this could be a field in Cache

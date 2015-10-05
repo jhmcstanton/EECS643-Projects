@@ -1,3 +1,10 @@
+/*
+ EECS 643
+ Jim Stanton, Pete Koehn, Brandon Teh
+ 
+ This class keeps track of set-associative caches.
+ */
+
 #include<stdint.h>
 #include<queue>
 
@@ -13,9 +20,6 @@ struct AddrInfo {
 
 struct Set {
   AddrInfo *blocks;
-  //std::queue<uint32_t> tag_queue;
-  // These are used, rather than a queue, to just keep an 
-  // index of the value to pop next. 
   uint8_t oldest_tag_index;
   // This is used to indicate when to start popping
   // items from the set

@@ -1,3 +1,12 @@
+/*
+ EECS 643
+ Jim Stanton, Pete Koehn, Brandon Teh
+ binreader.cpp
+
+ This is the main file for the binary mem trace simulator. This uses the
+ cache class to perform analysis
+ */
+
 #include<iostream>
 #include<stdio.h>
 #include<time.h>

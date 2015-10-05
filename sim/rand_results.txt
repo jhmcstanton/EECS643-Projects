@@ -1,2 +1,2 @@
-2way=>Number of Hits: 3FFFD11, Total Accesses: 4000000, Hit Rate: 0.999989, total CC 100119A0
-4way=>Number of Hits: 3FFFD12, Total Accesses: 4000000, Hit Rate: 0.999989, total CC 10011940
+2way=>Number of Hits: 3F2F44A, Total Accesses: 4000000, Hit Rate: 0.987260, total CC 14E46440
+4way=>Number of Hits: 3F81848, Total Accesses: 4000000, Hit Rate: 0.992280, total CC 12F6E500

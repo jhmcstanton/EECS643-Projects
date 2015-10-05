@@ -1,4 +1,8 @@
-//#include<iostream>
+/*
+ EECS 643
+ Jim Stanton, Pete Koehn, Brandon Teh
+ memtrace.c
+ */
 #include<stdio.h>
 #include<time.h>
 #include<strings.h>
