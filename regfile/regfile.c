@@ -15,12 +15,12 @@ int main(){
   b) REGFILESIZE is defined in terms of the *size* of reg_addr 
  */
 void RegFile(reg_addr rs, reg_addr rt, reg_addr rd, uint32_t wrt_data, bool wrt_enb, uint32_t *s_data, uint32_t *t_data) {
-  if(wrt_enb){
-    // First half of clock cycle data from previous cycle is written
+  // First half of clock cycle data from previous cycle is written
+  if(wrt_enb){ // Data can *only* be read when the controller says so
     reg_file[rd] = wrt_data;
-    // Second half data is retrieved.
-    *s_data = reg_file[rs];
-    *t_data = reg_file[rt];
   }
+  // Second half data is retrieved. Data is *always* read
+  *s_data = reg_file[rs];
+  *t_data = reg_file[rt];
   return;
 }
