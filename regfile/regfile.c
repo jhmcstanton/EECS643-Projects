@@ -47,9 +47,7 @@ void RegFile(reg_addr rs, reg_addr rt, reg_addr rd, uint32_t wrt_data, bool wrt_
     reg_file[rd] = wrt_data;
   }
   // Second half data is retrieved. Data is *always* read
-  //s_data = &reg_file[rs];
   *s_data = reg_file[rs];
   *t_data = reg_file[rt];
-  //t_data = &reg_file[rt];
   return;
 }
