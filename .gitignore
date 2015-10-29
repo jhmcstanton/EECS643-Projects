@@ -1,6 +1,4 @@
 *.bin
-<<<<<<< HEAD
 *.dia~
-=======
 *~
->>>>>>> origin/master
+*.o
