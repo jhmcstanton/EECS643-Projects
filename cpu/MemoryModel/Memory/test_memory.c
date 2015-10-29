@@ -19,22 +19,23 @@ int main(){
 	}
   	// Do some random testing (reads and writes)
   	for(i = 0; i < MemorySize*2; i++){
-    	addr = rand();
-    	
-    	int dir = rand() % 2;
-
-    	bus = rand();
-
-    	printf("Memory(%u, %u, %u, bus) => ", addr, dir, bus);
-
-    	memory(addr, dir, &bus);
+	  addr = rand();
+	  
+	  int dir = rand() % 2;
+	 
+	  if(dir == 0){
+	    bus = rand();
+	  }
+	  printf("Memory(%u, %u, %u, bus) => ", addr, dir, bus);
+	  
+	  memory(addr, dir, &bus);
 	
-	if(dir == 1){
-	  printf("Read mode: *rd_data = %u\n", bus);
-	}
-	else{
-	  printf("Write mode: Memory[%u] = %u\n", addr, bus); 
-	}
+	  if(dir == 1){
+	    printf("Read mode: *rd_data = %u\n", bus);
+	  }
+	  else{
+	    printf("Write mode: Memory[%u] = %u\n", addr, bus); 
+	  }
 
 	}
   
