@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include "../memconfig.h"
 
-#define mem_addr uint16_t
-// 2^10 = 1024 entries = 1kB
+#define mem_addr uint16_t // arbitrarily chosen
+
 #define MemorySize (1 << (8 * sizeof(mem_addr)))
 
 MemWidth Memory[MemorySize];
