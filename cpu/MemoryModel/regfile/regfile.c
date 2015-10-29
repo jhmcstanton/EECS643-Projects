@@ -1,9 +1,10 @@
 #include "regfile.h"
+#include "../memconfig.h"
 #include <stdlib.h>
 #include<stdio.h>
 #include<time.h>
 
-uint32_t reg_file[REGFILESIZE];
+MemWidth reg_file[REGFILESIZE];
 
 /*
   Register File that takes 1 cycle to run. Contains @REGFILESIZE registers.
