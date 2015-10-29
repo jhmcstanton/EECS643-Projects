@@ -4,17 +4,15 @@
 #include <time.h>
 
 
-void memory(mem_addr addr, int dir, MemWidth write_data, MemWidth *rd_data){
+void memory(mem_addr addr, int dir, MemWidth *bus){
 
 	//If direction is from memory to cache, write to destination address.
 	if (dir == 1){
-	        *rd_data = Memory[addr];
-		printf("*rd_data = %u\n", write_data);
+	        *bus = Memory[addr];
 	}
 	//If direction is from cache to memory, Memory[address] retrieves data from rd_data.
 	else if (dir == 0){
-		Memory[addr] = *rd_data;
-		printf("Memory[%u] = %u\n", addr, *rd_data);
+		Memory[addr] = *bus;
 	}
 
 }

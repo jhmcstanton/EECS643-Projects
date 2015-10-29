@@ -8,32 +8,35 @@ int main(){
 	srand(time(NULL));
 
 	uint32_t *rd_data = (uint32_t *) malloc(sizeof(uint32_t));
-	MemWidth i, write_data;
+	MemWidth i, bus;
 
 	mem_addr addr;
   	
 	//fill up the memory first
 	for(i = 0; i < MemorySize; i++){
-	  write_data = i*3;
-	  memory((mem_addr) i, 0, NULL, &write_data); 
+	  bus = i*3;
+	  memory((mem_addr) i, 0, &bus); 
 	}
   	// Do some random testing (reads and writes)
   	for(i = 0; i < MemorySize*2; i++){
     	addr = rand();
     	
-    	const int dir = rand() % 2;
+    	int dir = rand() % 2;
 
-    	write_data = rand();
+    	bus = rand();
 
-    	if (dir == 0){
-    		*rd_data = rand();
-    	}
+    	printf("Memory(%u, %u, %u, bus) => ", addr, dir, bus);
 
-    	printf("Memory(%u, %u, %u, rd_data) => ", addr, dir, write_data);
-    	memory(addr, dir, write_data, rd_data);
+    	memory(addr, dir, &bus);
+	
+	if(dir == 1){
+	  printf("Read mode: *rd_data = %u\n", bus);
+	}
+	else{
+	  printf("Write mode: Memory[%u] = %u\n", addr, bus); 
+	}
 
-  	}
+	}
   
-  	free(rd_data);
   	return 0;
 }
