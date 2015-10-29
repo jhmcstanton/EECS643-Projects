@@ -10,6 +10,6 @@
 
 MemWidth Memory[MemorySize];
 
-void memory(mem_addr addr, int dir, uint32_t write_data, uint32_t *rd_data);
+void memory(mem_addr addr, int dir, MemWidth write_data, MemWidth *rd_data);
 
 #endif 

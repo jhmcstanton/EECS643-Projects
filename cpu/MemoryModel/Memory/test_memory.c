@@ -8,12 +8,17 @@ int main(){
 	srand(time(NULL));
 
 	uint32_t *rd_data = (uint32_t *) malloc(sizeof(uint32_t));
-	uint32_t i, write_data;
+	MemWidth i, write_data;
 
 	mem_addr addr;
   	
+	//fill up the memory first
+	for(i = 0; i < MemorySize; i++){
+	  write_data = i*3;
+	  memory((mem_addr) i, 0, NULL, &write_data); 
+	}
   	// Do some random testing (reads and writes)
-  	for(i = 0; i < 10; i++){
+  	for(i = 0; i < MemorySize*2; i++){
     	addr = rand();
     	
     	const int dir = rand() % 2;
