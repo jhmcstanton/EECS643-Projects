@@ -3,7 +3,7 @@ FLAGS = -I$(IDIR)
 _DEPS = commontypes.h
 DEPS  = $(patsubst %, $(IDIR)/%, $(_DEPS))
 
-Memory.o: Memory.c
+Memory.o: Memory.c $(DEPS)
 	gcc -c Memory.c $(FLAGS)
 
 test_mem: test_memory.c Memory.o $(DEPS)

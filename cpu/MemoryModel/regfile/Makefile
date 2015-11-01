@@ -1,8 +1,13 @@
-regfile.o: regfile.c
-	gcc -c regfile.c 
+IDIR =../../include
+FLAGS = -I$(IDIR)
+_DEPS = commontypes.h
+DEPS  = $(patsubst %, $(IDIR)/%, $(_DEPS))
 
-test_regfile: test_regfile.c regfile.o
-	gcc test_regfile.c regfile.o -o test_regfile
+regfile.o: regfile.c $(DEPS)
+	gcc -c regfile.c $(FLAGS)
+
+test_regfile: test_regfile.c regfile.o 
+	gcc test_regfile.c regfile.o $(FLAGS) -o test_regfile
 
 run_test: test_regfile
 	./test_regfile

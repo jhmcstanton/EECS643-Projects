@@ -1,6 +1,6 @@
 #include "regfile.h"
-#include "../memconfig.h"
-#include <stdlib.h>
+#include<commontypes.h>
+#include<stdlib.h>
 #include<stdio.h>
 #include<time.h>
 
