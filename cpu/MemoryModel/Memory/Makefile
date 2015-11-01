@@ -1,8 +1,13 @@
-Memory.o: Memory.c
-	gcc -c Memory.c
+IDIR =../../include
+FLAGS = -I$(IDIR)
+_DEPS = commontypes.h
+DEPS  = $(patsubst %, $(IDIR)/%, $(_DEPS))
 
-test_mem: test_memory.c Memory.o
-	gcc test_memory.c Memory.o -o test_mem
+Memory.o: Memory.c
+	gcc -c Memory.c $(FLAGS)
+
+test_mem: test_memory.c Memory.o $(DEPS)
+	gcc test_memory.c Memory.o $(FLAGS) -o test_mem
 
 run_test: test_mem
 	./test_mem

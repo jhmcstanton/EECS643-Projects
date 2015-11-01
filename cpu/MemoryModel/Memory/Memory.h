@@ -2,7 +2,8 @@
 #define MAINMEMORY_H
 
 #include <stdint.h>
-#include "../memconfig.h"
+//#include "../memconfig.h"
+#include <commontypes.h>
 
 #define mem_addr uint16_t // arbitrarily chosen
 
