@@ -19,10 +19,13 @@ struct ALUResult {
 typedef enum {R, I, J} OPCODE;
 
 /*
-  some R-Type instruction functions
+  some R-Type and I-Typeinstruction functions
  */
 typedef enum {
-  ADDU, MULT, DIV, AND, OR, NAND, NOR
+  /************* R-TYPE **************/
+  ADDU, MULT, DIV, AND, OR, NAND, NOR,
+  /************* I-TYPE **************/
+  BEQ, BGEZ, BGETZ
 } FUNC;
 
 #endif
