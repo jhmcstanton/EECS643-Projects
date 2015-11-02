@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MemWidth uint64_t
+#define MemWidth uint32_t
 
 struct ALUResult {
   bool is_zero;

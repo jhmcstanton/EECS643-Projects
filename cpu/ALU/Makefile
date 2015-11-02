@@ -1,6 +1,6 @@
 IDIR =../include
 FLAGS = -I$(IDIR)
-_DEPS = commontypes.h
+_DEPS = commontypes.h ALU.h
 DEPS  = $(patsubst %, $(IDIR)/%, $(_DEPS))
 
 ALU.o : ALU.c $(DEPS)
