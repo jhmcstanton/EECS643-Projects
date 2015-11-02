@@ -25,7 +25,9 @@ typedef enum {
   /************* R-TYPE **************/
   ADDU, MULT, DIV, AND, OR, NAND, NOR,
   /************* I-TYPE **************/
-  BEQ, BGEZ, BGETZ
+  BEQ, BGEZ, BGETZ,
+  /************* META - used to keep track of how many codes exist, this must always be last ****/
+  NUM_FUNCTIONS
 } FUNC;
 
 #endif
