@@ -12,5 +12,8 @@ test_regfile: test_regfile.c regfile.o
 run_test: test_regfile
 	./test_regfile
 
+test_w_valgrind: test_regfile
+	valgrind ./test_regfile
+
 clean:
 	rm -rf ./*~ ./*.o 
