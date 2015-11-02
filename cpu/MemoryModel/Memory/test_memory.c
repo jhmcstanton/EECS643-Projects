@@ -38,6 +38,7 @@ int main(){
 	  }
 
 	}
-  
+	
+	free(rd_data);
   	return 0;
 }

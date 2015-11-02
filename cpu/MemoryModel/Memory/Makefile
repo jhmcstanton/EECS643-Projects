@@ -12,5 +12,8 @@ test_mem: test_memory.c Memory.o $(DEPS)
 run_test: test_mem
 	./test_mem
 
+test_w_valgrind: test_mem
+	valgrind ./test_mem
+
 clean:
 	rm -rf ./*~ ./*.o
